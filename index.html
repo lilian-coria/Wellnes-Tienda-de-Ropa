@@ -24,7 +24,6 @@
     rel="stylesheet">
 </head>
 
-<body class="homepage">
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <defs>
       <symbol xmlns="http://www.w3.org/2000/svg" id="instagram" viewBox="0 0 15 15">
@@ -232,7 +231,32 @@
           </li>
         </ul>
 
-        <button class="w-100 btn btn-primary btn-lg" type="submit">Continuar al Pago</button>
+        <button class="w-100 btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#checkoutModal">Continuar al Pago</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Pago -->
+  <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="checkoutModalLabel">Finalizar Compra</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="checkoutForm">
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombre" required>
+            </div>
+            <div class="mb-3">
+              <label for="apellido" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="apellido" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Finalizar Compra</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
