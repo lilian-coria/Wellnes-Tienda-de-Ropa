@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-  <title>Wellness - Tienda de Ropa deportiva}</title>
+  <title>Wellness - Tienda de Ropa deportiva</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -268,12 +268,38 @@
                 </div>
               </div>
             </div>
-            <div class="cart-total d-flex justify-content-between mt-3">
-              <span class="fw-bold">Total:</span>
-              <span class="fw-bold">$95.00</span>
+            <!-- Opciones de Envío -->
+            <div class="shipping-options mt-3 border-top pt-3">
+              <h6 class="mb-3">Método de Envío</h6>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="shippingOption" id="correoOption" value="correo" checked>
+                <label class="form-check-label d-flex justify-content-between align-items-center" for="correoOption">
+                  <span>Envío al Correo</span>
+                  <span class="text-primary">$8,999</span>
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="shippingOption" id="domicilioOption" value="domicilio">
+                <label class="form-check-label d-flex justify-content-between align-items-center" for="domicilioOption">
+                  <span>Envío a Domicilio</span>
+                  <span class="text-primary">$12,999</span>
+                </label>
+              </div>
             </div>
-            <div class="text-muted small mt-2">
-              <i>El total no incluye el costo de envío.</i>
+
+            <div class="cart-totals mt-3 border-top pt-3">
+              <div class="d-flex justify-content-between mb-2">
+                <span>Subtotal:</span>
+                <span class="subtotal">$95.00</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span>Costo de envío:</span>
+                <span class="shipping-cost">$8,999</span>
+              </div>
+              <div class="d-flex justify-content-between mt-2 pt-2 border-top">
+                <span class="fw-bold">Total:</span>
+                <span class="total fw-bold">$9,094.00</span>
+              </div>
             </div>
           </div>
 
@@ -358,7 +384,7 @@
       <div class="row justify-content-between align-items-center w-100">
 
         <div class="col-auto">
-          <a class="navbar-brand text-white" href="index.html">
+          <a class="navbar-brand text-white" href="./index.html">
             <img src="./images/ico-sol.jpg" alt="logo" width="150px">
           </a>
         </div>
@@ -379,24 +405,24 @@
 
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3">
-                <li class="nav-item dropdown">
-                  <a class="nav-link active" href="#" id="dropdownHome" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Inicio</a>
+               
+                 <li class="nav-item dropdown">
+                  <a class="nav-link active" href="index.html">Inicio</a>  
+                </li>
+                 <li class="nav-item dropdown">
+                  <a class="nav-link active" href="#blog py-5">Nosotros</a>
                   
                 </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link" href="#" id="dropdownShop" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Tienda</a>
+                  <a class="nav-link" href="#">Tienda</a>
                  
                 </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link" href="#" id="dropdownBlog" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Blog</a>
+                  <a class="nav-link" href="#new-arrival">Nuevos productos</a>
                   
                 </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link" href="#" id="dropdownPages" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Páginas</a>
+                  <a class="nav-link" href="#">Páginas</a>
                 </li>
                 
                 <li class="nav-item">
@@ -409,10 +435,7 @@
 
         <div class="col-3 col-lg-auto">
           <ul class="list-unstyled d-flex m-0">
-            <li class="d-none d-lg-block">
-              <a href="index.html" class="text-uppercase mx-3">Lista de Deseos <span class="wishlist-count">(0)</span>
-              </a>
-            </li>
+            
             <li class="d-none d-lg-block">
               <a href="index.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
                 aria-controls="offcanvasCart">Carrito <span class="cart-count">(0)</span>
@@ -475,7 +498,7 @@
                   </h5>
                   <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
                   <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
+                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Agregar al carrito</a>
                   </div>
                 </div>
               </div>
@@ -493,7 +516,7 @@
                   </h5>
                   <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
                   <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
+                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Agregar al carrito</a>
                   </div>
                 </div>
               </div>
@@ -511,7 +534,7 @@
                   </h5>
                   <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
                   <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
+                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Agregar al carrito</a>
                   </div>
                 </div>
               </div>
@@ -529,7 +552,7 @@
                   </h5>
                   <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
                   <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
+                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Agregar al carrito</a>
                   </div>
                 </div>
               </div>
@@ -547,7 +570,7 @@
                   </h5>
                   <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
                   <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
+                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Agregar al carrito</a>
                   </div>
                 </div>
               </div>
@@ -565,7 +588,7 @@
                   </h5>
                   <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
                   <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
+                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Agregar al carrito</a>
                   </div>
                 </div>
               </div>
@@ -583,48 +606,7 @@
     </div>
   </section>
 
-  <section class="features py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="0">
-          <div class="py-5">
-            <svg width="38" height="38" viewBox="0 0 24 24">
-              <use xlink:href="#calendar"></use>
-            </svg>
-            <h4 class="element-title text-capitalize my-3">Asesoría Deportiva</h4>
-            <p>Consulta con nuestros expertos en deportes para encontrar el equipo perfecto para tu disciplina.</p>
-          </div>
-        </div>
-        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="300">
-          <div class="py-5">
-            <svg width="38" height="38" viewBox="0 0 24 24">
-              <use xlink:href="#shopping-bag"></use>
-            </svg>
-            <h4 class="element-title text-capitalize my-3">Prueba en Tienda</h4>
-            <p>Prueba nuestros productos deportivos y encuentra la talla perfecta antes de comprar.</p>
-          </div>
-        </div>
-        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="600">
-          <div class="py-5">
-            <svg width="38" height="38" viewBox="0 0 24 24">
-              <use xlink:href="#gift"></use>
-            </svg>
-            <h4 class="element-title text-capitalize my-3">Kit Deportivo</h4>
-            <p>Recibe un kit de bienvenida con accesorios deportivos en tu primera compra.</p>
-          </div>
-        </div>
-        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="900">
-          <div class="py-5">
-            <svg width="38" height="38" viewBox="0 0 24 24">
-              <use xlink:href="#arrow-cycle"></use>
-            </svg>
-            <h4 class="element-title text-capitalize my-3">Garantía Deportiva</h4>
-            <p>30 días de garantía en productos de alto rendimiento para tu tranquilidad.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <section class="categories overflow-hidden">
     <div class="container">
@@ -680,7 +662,7 @@
   <section id="new-arrival" class="new-arrival product-carousel py-5 position-relative overflow-hidden">
     <div class="container">
       <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
-        <h4 class="text-uppercase">Nuevas Llegadas</h4>
+        <h4 class="text-uppercase">Nuevos Productos</h4>
         <a href="index.html" class="btn-link">Ver Todos los Productos</a>
       </div>
       <div class="swiper product-swiper open-up" data-aos="zoom-out">
@@ -949,7 +931,7 @@
         <div class="swiper-slide">
           <div class="testimonial-item text-center">
             <blockquote>
-              <p>“More than expected crazy soft, flexible and best fitted white simple denim shirt.”</p>
+              <p>Compre una calza con ustedes, se ajusta perfectamente, perfecta para entrenar o para un dia relajado</p>
               <div class="review-title text-uppercase">casual way</div>
             </blockquote>
           </div>
@@ -957,7 +939,7 @@
         <div class="swiper-slide">
           <div class="testimonial-item text-center">
             <blockquote>
-              <p>“Best fitted white denim shirt more than expected crazy soft, flexible</p>
+              <p>Compre una remera deportiva muy fresca y comoda!</p>
               <div class="review-title text-uppercase">uptop</div>
             </blockquote>
           </div>
@@ -965,7 +947,7 @@
         <div class="swiper-slide">
           <div class="testimonial-item text-center">
             <blockquote>
-              <p>“Best fitted white denim shirt more white denim than expected flexible crazy soft.”</p>
+              <p>Exelente calida y buen precio</p>
               <div class="review-title text-uppercase">Denim craze</div>
             </blockquote>
           </div>
@@ -973,7 +955,7 @@
         <div class="swiper-slide">
           <div class="testimonial-item text-center">
             <blockquote>
-              <p>“Best fitted white denim shirt more than expected crazy soft, flexible</p>
+              <p>Conforme con mi compra, muchas gracias!!!</p>
               <div class="review-title text-uppercase">uptop</div>
             </blockquote>
           </div>
@@ -1105,27 +1087,17 @@
 
   <section class="blog py-5">
     <div class="container">
-      <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
-        <h4 class="text-uppercase">Lee Nuestro Blog</h4>
-        <a href="index.html" class="btn-link">Ver Todo</a>
+      <div class="text-center mb-5">
+        <h4 class="text-uppercase mb-4">Nosotros</h4>
+        <p class="col-lg-8 mx-auto">En Wellness, creemos que el movimiento es estilo de vida. Vendemos ropa deportiva cómoda, funcional y moderna, pensada para acompañarte en cada entrenamiento y en tu día a día. Nuestra misión es inspirarte a sentirte bien, moverte libre y alcanzar tus metas con actitud.</p>
       </div>
       <div class="row">
         <div class="col-md-4">
           <article class="post-item">
             <div class="post-image">
               <a href="index.html">
-                <img src="./images/post-image1.jpg" alt="image" class="post-grid-image img-fluid">
+                <img src="./images/nosotos1.jpg" alt="image" class="post-grid-image img-fluid">
               </a>
-            </div>
-            <div class="post-content d-flex flex-wrap gap-2 my-3">
-              <div class="post-meta text-uppercase fs-6 text-secondary">
-                <span class="post-category">Fitness /</span>
-                <span class="meta-day"> oct 27, 2025</span>
-              </div>
-              <h5 class="post-title text-uppercase">
-                <a href="index.html">Guía completa para elegir tu ropa de running</a>
-              </h5>
-              <p>Descubre cómo seleccionar la mejor ropa técnica para correr, desde zapatillas hasta accesorios...</p>
             </div>
           </article>
         </div>
@@ -1133,18 +1105,8 @@
           <article class="post-item">
             <div class="post-image">
               <a href="index.html">
-                <img src="images/post-image2.jpg" alt="image" class="post-grid-image img-fluid">
+                <img src="images/ico-sol.jpg" alt="image" class="post-grid-image img-fluid">
               </a>
-            </div>
-            <div class="post-content d-flex flex-wrap gap-2 my-3">
-              <div class="post-meta text-uppercase fs-6 text-secondary">
-                <span class="post-category">Entrenamiento /</span>
-                <span class="meta-day"> oct 27, 2025</span>
-              </div>
-              <h5 class="post-title text-uppercase">
-                <a href="index.html">Los mejores outfits para el gimnasio</a>
-              </h5>
-              <p>Consejos expertos para vestir adecuadamente en el gimnasio y maximizar tu rendimiento...</p>
             </div>
           </article>
         </div>
@@ -1152,18 +1114,8 @@
           <article class="post-item">
             <div class="post-image">
               <a href="index.html">
-                <img src="images/post-image3.jpg" alt="image" class="post-grid-image img-fluid">
+                <img src="images/nosotros4.jpg" alt="image" class="post-grid-image img-fluid">
               </a>
-            </div>
-            <div class="post-content d-flex flex-wrap gap-2 my-3">
-              <div class="post-meta text-uppercase fs-6 text-secondary">
-                <span class="post-category">Tecnología /</span>
-                <span class="meta-day"> oct 27, 2025</span>
-              </div>
-              <h5 class="post-title text-uppercase">
-                <a href="index.html">Tecnología en ropa deportiva: Lo último en innovación</a>
-              </h5>
-              <p>Conoce los últimos avances en tejidos técnicos y tecnología aplicada a la ropa deportiva...</p>
             </div>
           </article>
         </div>
@@ -1354,20 +1306,35 @@
       this.classList.remove('was-validated');
     });
 
-    // Update cart totals when quantity changes
+    // Función para calcular y actualizar totales
+    function updateTotals() {
+      // Obtener valores base
+      const quantity = document.querySelector('.cart-item input[type="number"]').value;
+      const price = 95.00; // Precio base del producto
+      const subtotal = quantity * price;
+      
+      // Obtener costo de envío seleccionado
+      const shippingOption = document.querySelector('input[name="shippingOption"]:checked').value;
+      const shippingCost = shippingOption === 'correo' ? 8999 : 12999;
+      
+      // Actualizar subtotal y costos en la UI
+      document.querySelector('.subtotal').textContent = '$' + subtotal.toFixed(2);
+      document.querySelector('.shipping-cost').textContent = '$' + shippingCost.toFixed(2);
+      document.querySelector('.total').textContent = '$' + (subtotal + shippingCost).toFixed(2);
+    }
+
+    // Event listener para cambios en cantidad
     document.querySelectorAll('.cart-item input[type="number"]').forEach(function(input) {
-      input.addEventListener('change', function() {
-        // Here you would normally update the cart totals
-        // This is just a simple example
-        const quantity = this.value;
-        const price = 95.00; // This would normally come from your cart data
-        const total = quantity * price;
-        
-        // Update the item's total
-        const cartTotal = document.querySelector('.cart-total .fw-bold');
-        cartTotal.textContent = '$' + total.toFixed(2);
-      });
+      input.addEventListener('change', updateTotals);
     });
+
+    // Event listener para cambios en opción de envío
+    document.querySelectorAll('input[name="shippingOption"]').forEach(function(radio) {
+      radio.addEventListener('change', updateTotals);
+    });
+
+    // Inicializar totales
+    updateTotals();
   </script>
 </body>
 
