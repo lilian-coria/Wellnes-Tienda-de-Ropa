@@ -238,24 +238,115 @@
 
   <!-- Modal de Pago -->
   <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="checkoutModalLabel">Finalizar Compra</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="checkoutForm">
-            <div class="mb-3">
-              <label for="nombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="nombre" required>
+          <!-- Resumen del Carrito -->
+          <div class="cart-summary mb-4">
+            <h6 class="border-bottom pb-2">Productos en tu carrito</h6>
+            <div class="cart-items">
+              <!-- Ejemplo de item en carrito -->
+              <div class="cart-item d-flex align-items-center py-2 border-bottom">
+                <img src="./images/product-item-1.jpg" alt="Producto" class="img-thumbnail" style="width: 60px;">
+                <div class="ms-3 flex-grow-1">
+                  <h6 class="mb-0">Soft leather jackets</h6>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <span class="text-muted">Cantidad: </span>
+                      <input type="number" class="form-control form-control-sm d-inline-block" style="width: 60px;" value="1" min="1">
+                    </div>
+                    <div>
+                      <span class="text-muted">Precio: </span>
+                      <span class="fw-bold">$95.00</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="apellido" class="form-label">Apellido</label>
-              <input type="text" class="form-control" id="apellido" required>
+            <div class="cart-total d-flex justify-content-between mt-3">
+              <span class="fw-bold">Total:</span>
+              <span class="fw-bold">$95.00</span>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Finalizar Compra</button>
+            <div class="text-muted small mt-2">
+              <i>El total no incluye el costo de envío.</i>
+            </div>
+          </div>
+
+          <!-- Formulario de Datos Personales -->
+          <form id="checkoutForm" class="needs-validation" novalidate>
+            <h6 class="border-bottom pb-2">Datos Personales</h6>
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="nombreCompleto" class="form-label">Nombre Completo</label>
+                <input type="text" class="form-control" id="nombreCompleto" required>
+                <div class="invalid-feedback">
+                  Por favor ingresa tu nombre completo
+                </div>
+              </div>
+              
+              <div class="col-12">
+                <label for="domicilio" class="form-label">Domicilio</label>
+                <input type="text" class="form-control" id="domicilio" required>
+                <div class="invalid-feedback">
+                  Por favor ingresa tu domicilio
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="codigoPostal" class="form-label">Código Postal</label>
+                <input type="text" class="form-control" id="codigoPostal" required>
+                <div class="invalid-feedback">
+                  Por favor ingresa tu código postal
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" id="telefono" required>
+                <div class="invalid-feedback">
+                  Por favor ingresa tu teléfono
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+                <div class="invalid-feedback">
+                  Por favor ingresa un email válido
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <button type="submit" class="btn btn-primary w-100">Finalizar Compra</button>
+            </div>
           </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmación -->
+  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">¡Gracias por tu compra!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <div class="mb-4">
+            <i class="fas fa-check-circle text-success" style="font-size: 48px;"></i>
+          </div>
+          <p>Te contactaremos a la brevedad para terminar los detalles de pago.</p>
+          <p class="text-muted small">Un representante se comunicará contigo para coordinar el envío y el método de pago.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
@@ -1237,6 +1328,46 @@
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
   <script src="js/script.min.js"></script>
+  
+  <script>
+    // Form validation and submission handling
+    document.getElementById('checkoutForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      if (!this.checkValidity()) {
+        event.stopPropagation();
+        this.classList.add('was-validated');
+        return;
+      }
+
+      // Hide checkout modal
+      var checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+      checkoutModal.hide();
+
+      // Show confirmation modal
+      var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+      confirmationModal.show();
+
+      // Reset form
+      this.reset();
+      this.classList.remove('was-validated');
+    });
+
+    // Update cart totals when quantity changes
+    document.querySelectorAll('.cart-item input[type="number"]').forEach(function(input) {
+      input.addEventListener('change', function() {
+        // Here you would normally update the cart totals
+        // This is just a simple example
+        const quantity = this.value;
+        const price = 95.00; // This would normally come from your cart data
+        const total = quantity * price;
+        
+        // Update the item's total
+        const cartTotal = document.querySelector('.cart-total .fw-bold');
+        cartTotal.textContent = '$' + total.toFixed(2);
+      });
+    });
+  </script>
 </body>
 
 </html>
