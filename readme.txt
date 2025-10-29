@@ -23,11 +23,9 @@ Este proyecto fue desarrollado como parte de una práctica de desarrollo web, co
 - **Git y GitHub** para control de versiones  
 
 ---
+Autora:
+Lilian Coria
+💬 Desarrolladora en formación | Apasionada por el diseño, la innovación 
 
-## 🚀 Cómo ejecutar el proyecto
-
-1. Cloná este repositorio:  
-   ```bash
-   git clone https://github.com/lilian-coria/Wellnes-Tienda-de-Ropa.git
 
 
