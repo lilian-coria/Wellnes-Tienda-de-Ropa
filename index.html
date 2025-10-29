@@ -380,13 +380,13 @@
     </div>
   </div>
 
-  <nav class="navbar navbar-expand-lg  text-uppercase fs-6 p-3 border-bottom align-items-center">
+  <nav class="navbar fixed-top navbar-expand-lg  text-uppercase fs-6 p-3 border-bottom align-items-center">
     <div class="container-fluid">
       <div class="row justify-content-between align-items-center w-100">
 
         <div class="col-auto">
-          <a class="navbar-brand text-white" href="./index.html">
-            <img src="./images/ico-sol.jpg" alt="logo" width="150px">
+          <a class="navbar-brand" href="./index.html">
+            <img src="./images/Sol Logo.png" alt="logo" class="logo-sol" width="150px">
           </a>
         </div>
 
@@ -423,27 +423,7 @@
                   <a class="nav-link" href="https://www.instagram.com/wellness.ropa/?utm_source=qr&igsh=bWx1MjNtaWpsOWJr#" target="_blank" rel="noopener noreferrer">Instagram</a>
                 </li>
                 
-                <li class="nav-item">
-                  <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contacto</a>
-                </li>
               </ul>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Modal de Contacto -->
-        <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="contactModalLabel">Contacto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body text-center">
-                <p class="mb-2">Nuestro correo electrónico:</p>
-                <h5 class="text-primary">indumentariawellness@gmail.com</h5>
-                <a href="mailto:indumentariawellness@gmail.com" class="btn btn-primary mt-3">Enviar correo</a>
-              </div>
             </div>
           </div>
         </div>
@@ -1066,7 +1046,7 @@
           <article class="post-item">
             <div class="post-image">
               <a href="index.html">
-                <img src="images/ico-sol.jpg" alt="image" class="post-grid-image img-fluid">
+                <img src="images/nosotros2.jpg" alt="image" class="post-grid-image img-fluid">
               </a>
             </div>
           </article>
@@ -1164,55 +1144,57 @@
     </div>
   </section>
 
-  <footer id="footer" class="mt-5">
-    <div class="container">
-      <div class="row d-flex flex-wrap justify-content-between py-5">
-        <div class="col-md-6">
-          <div class="footer-menu footer-menu-001">
-            <div class="footer-intro mb-4">
-              <a href="index.html">
-                <img src="./images/ico-sol.jpg" alt="logo" width="150px">
-              </a>
-            </div>
-            <p>Tu tienda especializada en ropa deportiva de alto rendimiento. Ofrecemos las últimas innovaciones 
-              en tecnología deportiva, con productos diseñados para maximizar tu rendimiento y comodidad durante 
-              la práctica deportiva.</p>
-           
-          </div>
+ <footer id="footer" class="bg-light mt-5 border-top">
+  <div class="container py-5">
+    <div class="row g-5">
+      
+      <!-- Columna 1: Logo + descripción -->
+      <div class="col-md-6 col-lg-5">
+        <a href="index.html" class="d-inline-block mb-3">
+          <img src="./images/Sol Logo.png" alt="Wellness Logo" class="logo-sol" width="150">
+        </a>
+        <p class="text-muted">
+          En <strong>Wellness</strong> impulsamos tu rendimiento con indumentaria deportiva de alta calidad.
+          Innovación, confort y estilo para acompañarte en cada entrenamiento.
+        </p>
+        <div class="mt-4 d-flex gap-3">
+          <a href="#" class="text-dark fs-5"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-dark fs-5"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-dark fs-5"><i class="bi bi-envelope"></i></a>
         </div>
-        <div class="col-md-6">
-          <div class="footer-menu footer-menu-002">
-            <h5 class="widget-title text-uppercase mb-4">Enlaces Rápidos</h5>
-            <p class="small text-muted">Encuentra fácilmente lo que necesitas en nuestra web</p>
-            <ul class="menu-list list-unstyled d-flex flex-wrap justify-content-end align-items-center gap-5 text-uppercase border-animation-left fs-6">
-              <li class="menu-item">
-                <a href="index.html" class="item-anchor">Inicio</a>
-              </li>
-              <li class="menu-item"">
-                <a href="#blog""index.html" class="item-anchor">Nosotros</a>
-              </li>
-              
-              <li class="menu-item">
-                <a href="#" class="item-anchor">Contacto</a>
+      </div>
 
-              </li>
-            </ul>
-          </div>
-        </div>
-        
-       
+      <!-- Columna 2: Enlaces -->
+      <div class="col-md-6 col-lg-3 offset-lg-1">
+        <h5 class="text-uppercase fw-bold mb-3">Enlaces útiles</h5>
+        <ul class="list-unstyled d-flex flex-column gap-2">
+          <li><a href="index.html" class="text-decoration-none text-muted">Inicio</a></li>
+          <li><a href="#blog" class="text-decoration-none text-muted">Nosotros</a></li>
+          <li><a href="#new-arrival" class="text-decoration-none text-muted">Nuevos productos</a></li>
+          <li><a  href="https://www.instagram.com/wellness.ropa/?utm_source=qr&igsh=bWx1MjNtaWpsOWJr#" target="_blank" rel="noopener noreferrer"class="text-decoration-none text-muted">Instagram</a></li>
+        </ul>
       </div>
-    </div>
-    <div class="border-top py-4">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-12 text-center">
-            <p>© Copyright 2025 Wellness. Ropa Deportiva.</p>
-          </div>
-        </div>
+
+      <!-- Columna 3: Contacto -->
+      <div class="col-lg-3">
+        <h5 class="text-uppercase fw-bold mb-3">Contacto</h5>
+        <ul class="list-unstyled text-muted">
+          <li><i class="bi bi-geo-alt-fill me-2"></i>Buenos Aires, Argentina</li>
+          <li><i class="bi bi-telephone-fill me-2"></i>+54 11 5555 5555</li>
+          <li><i class="bi bi-envelope-fill me-2"></i>info@wellness.com</li>
+        </ul>
       </div>
+
     </div>
-  </footer>
+  </div>
+
+  <div class="border-top py-3 text-center">
+    <small class="text-muted">
+      © 2025 <strong>Wellness</strong> | Ropa Deportiva de Alto Rendimiento
+    </small>
+  </div>
+</footer>
+
   <script src="js/jquery.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/SmoothScroll.js"></script>
@@ -1275,6 +1257,54 @@
 
     // Inicializar totales
     updateTotals();
+  </script>
+  <script>
+    // Ajustar padding-top del body para evitar que el contenido quede oculto bajo el navbar fijo
+    (function(){
+      function adjustBodyPadding(){
+        var nav = document.querySelector('nav.navbar.fixed-top');
+        if(!nav) return;
+        // calcular altura real incluyendo bordes/márgenes
+        var h = nav.getBoundingClientRect().height;
+        document.body.style.paddingTop = h + 'px';
+      }
+      // ajustar al cargar y al cambiar tamaño
+      window.addEventListener('load', adjustBodyPadding);
+      window.addEventListener('resize', adjustBodyPadding);
+      // también corre una vez inmediatamente
+      adjustBodyPadding();
+    })();
+
+    // Ajustar el scroll offset para los enlaces del navbar
+    document.addEventListener('DOMContentLoaded', function() {
+      // Obtener todos los enlaces que apuntan a anchors
+      var anchorLinks = document.querySelectorAll('a[href^="#"]');
+      
+      anchorLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Obtener el elemento target del enlace
+          var targetId = this.getAttribute('href').substring(1);
+          var targetElement = document.getElementById(targetId);
+          
+          if (targetElement) {
+            // Obtener la altura del navbar
+            var navbar = document.querySelector('nav.navbar.fixed-top');
+            var navbarHeight = navbar ? navbar.offsetHeight : 0;
+            
+            // Calcular la posición de scroll
+            var targetPosition = targetElement.offsetTop - navbarHeight;
+            
+            // Hacer el scroll suave
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
   </script>
 </body>
 

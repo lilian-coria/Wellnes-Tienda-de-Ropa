@@ -288,10 +288,23 @@ a {
 }
 
 /* navbar */
-.navbar.fixed-top {
-  transition: background-color 0.6s ease-out;
+ .navbar.fixed-top {
+   transition: background-color 0.6s ease-out;
+   z-index: 1030; /* ensure it sits above page content */
+   background: #ffffff !important; /* always white */
+ }
+
+/* when navbar is fixed ensure links are dark for readability */
+.navbar.fixed-top .nav-link,
+.navbar.fixed-top .navbar-brand,
+.navbar.fixed-top .navbar-toggler {
+  color: #111 !important;
 }
 
+/* improve toggler icon visibility on light background */
+.navbar.fixed-top .navbar-toggler-icon {
+  filter: invert(0) !important;
+}
 /* slideshow */
 .slideshow {
   overflow: hidden;
@@ -1539,4 +1552,12 @@ a.btn-link.text-light:after {
   background-position: center;
   background-size: cover;
   transition: transform .3s ease-out;
+}
+
+/* Sol logo: make header/footer logo more rounded */
+.logo-sol {
+  border-radius: 50%;
+  /* ensure image scales nicely */
+  display: inline-block;
+  object-fit: cover;
 }
