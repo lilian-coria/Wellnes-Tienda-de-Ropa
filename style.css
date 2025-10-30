@@ -1561,3 +1561,64 @@ a.btn-link.text-light:after {
   display: inline-block;
   object-fit: cover;
 }
+
+/* Adjust swiper pagination: move bullets slightly down for all sections
+   except the billboard (Nueva Colección) which should keep its original position.
+   We use translateY to shift from the current placement so we don't need to
+   know the exact original 'bottom' value. The !important ensures override
+   of library defaults when needed. */
+section:not(#billboard) .swiper-pagination {
+  transform: translateY(18px);
+  transition: transform 0.2s ease-out;
+  z-index: 5;
+}
+
+/* On small screens pagination is relative; keep shift smaller to avoid overlap */
+@media (max-width: 767px) {
+  section:not(#billboard) .swiper-pagination {
+    transform: translateY(10px);
+  }
+}
+
+/* Ajustes para las opciones de envío en el offcanvas (Tu carrito) */
+.offcanvas .shipping-options .form-check-label {
+  padding-left: 48px; /* dejar espacio para el checkmark y el input */
+  padding-right: 14px; /* evitar que el precio/ícono se corte al borde */
+  box-sizing: border-box;
+}
+
+/* Reducir el tamaño del checkmark para pantallas pequeñas y aumentar padding interno */
+@media (max-width: 575px) {
+  .offcanvas .shipping-options .form-check-label {
+    padding-left: 54px;
+    padding-right: 18px;
+  }
+  .offcanvas .shipping-options .checkmark {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Alineación específica para inputs radio dentro del offcanvas */
+.offcanvas .shipping-options .form-check {
+  padding-left: 12px; /* empuja el conjunto hacia adentro si el offcanvas está muy ajustado */
+  overflow: visible;
+}
+
+.offcanvas .shipping-options .form-check-input {
+  margin-left: 8px; /* desplaza el círculo del radio hacia la derecha */
+  margin-right: 10px; /* separación respecto al label */
+  transform: translateX(2px); /* pequeño ajuste fino */
+}
+
+/* Para pantallas muy pequeñas empujar un poco más */
+@media (max-width: 420px) {
+  .offcanvas .shipping-options .form-check-input {
+    margin-left: 12px;
+    transform: translateX(4px);
+  }
+  .offcanvas .shipping-options .form-check {
+    padding-left: 18px;
+  }
+}
+

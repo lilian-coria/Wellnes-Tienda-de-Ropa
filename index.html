@@ -153,46 +153,6 @@
 
   <div class="preloader text-white fs-6 text-uppercase overflow-hidden"></div>
 
-  <div class="search-popup">
-    <div class="search-popup-container">
-
-      <form role="search" method="get" class="form-group" action="">
-        <input type="search" id="search-form" class="form-control border-0 border-bottom"
-          placeholder="Type and press enter" value="" name="s" />
-        <button type="submit" class="search-submit border-0 position-absolute bg-white"
-          style="top: 15px;right: 15px;"><svg class="search" width="24" height="24">
-            <use xlink:href="#search"></use>
-          </svg></button>
-      </form>
-
-      <h5 class="cat-list-title">Browse Categories</h5>
-
-      <ul class="cat-list">
-        <li class="cat-list-item">
-          <a href="#" title="Jackets">Jackets</a>
-        </li>
-        <li class="cat-list-item">
-          <a href="#" title="T-shirts">T-shirts</a>
-        </li>
-        <li class="cat-list-item">
-          <a href="#" title="Handbags">Handbags</a>
-        </li>
-        <li class="cat-list-item">
-          <a href="#" title="Accessories">Accessories</a>
-        </li>
-        <li class="cat-list-item">
-          <a href="#" title="Cosmetics">Cosmetics</a>
-        </li>
-        <li class="cat-list-item">
-          <a href="#" title="Dresses">Dresses</a>
-        </li>
-        <li class="cat-list-item">
-          <a href="#" title="Jumpsuits">Jumpsuits</a>
-        </li>
-      </ul>
-
-    </div>
-  </div>
 
   <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
     <div class="offcanvas-header justify-content-center">
@@ -202,37 +162,55 @@
       <div class="order-md-last">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-primary">Tu carrito</span>
-          <span class="badge bg-primary rounded-pill">3</span>
+          <span class="badge bg-primary rounded-pill cart-count">(0)</span>
         </h4>
-        <ul class="list-group mb-3">
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Sidra Growers</h6>
-              <small class="text-body-secondary">Breve descripción</small>
-            </div>
-            <span class="text-body-secondary">$12</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Uvas frescas</h6>
-              <small class="text-body-secondary">Breve descripción</small>
-            </div>
-            <span class="text-body-secondary">$8</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Ketchup Heinz</h6>
-              <small class="text-body-secondary">Breve descripción</small>
-            </div>
-            <span class="text-body-secondary">$5</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Total (USD)</span>
-            <strong>$20</strong>
-          </li>
-        </ul>
+        <div id="cart-items" class="list-group mb-3">
+          <!-- Aquí se mostrarán los productos del carrito -->
+        </div>
 
-        <button class="w-100 btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#checkoutModal">Continuar al Pago</button>
+        <!-- Opciones de envío dentro del offcanvas -->
+        <div class="shipping-options mt-2 border-top pt-3">
+          <h6 class="mb-3">Método de Envío</h6>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="shippingOptionCart" id="correoOptionCart" value="correo" data-cost="8999" checked>
+            <label class="form-check-label d-flex justify-content-between align-items-center" for="correoOptionCart">
+              <span>Envío al Correo</span>
+              <span class="text-primary">$8,999</span>
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="shippingOptionCart" id="domicilioOptionCart" value="domicilio" data-cost="12999">
+            <label class="form-check-label d-flex justify-content-between align-items-center" for="domicilioOptionCart">
+              <span>Envío a Domicilio</span>
+              <span class="text-primary">$12,999</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Totales en el offcanvas -->
+        <div class="cart-totals mt-3 border-top pt-3">
+          <div class="d-flex justify-content-between mb-2">
+            <span>Subtotal:</span>
+            <span id="subtotal-offcanvas">$0.00</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Costo de envío:</span>
+            <span id="shipping-cost-offcanvas">$0.00</span>
+          </div>
+          <div class="d-flex justify-content-between mt-2 pt-2 border-top">
+            <span class="fw-bold">Total:</span>
+            <span id="total-offcanvas" class="fw-bold">$0.00</span>
+          </div>
+        </div>
+
+        <div class="d-grid gap-2 mt-3">
+          <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#checkoutModal">
+            Continuar al Pago
+          </button>
+          <button class="btn btn-outline-danger btn-lg" type="button" onclick="vaciarCarrito()">
+            Vaciar Carrito
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -246,63 +224,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <!-- Resumen del Carrito -->
-          <div class="cart-summary mb-4">
-            <h6 class="border-bottom pb-2">Productos en tu carrito</h6>
-            <div class="cart-items">
-              <!-- Ejemplo de item en carrito -->
-              <div class="cart-item d-flex align-items-center py-2 border-bottom">
-                <img src="./images/product-item-1.jpg" alt="Producto" class="img-thumbnail" style="width: 60px;">
-                <div class="ms-3 flex-grow-1">
-                  <h6 class="mb-0">Soft leather jackets</h6>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span class="text-muted">Cantidad: </span>
-                      <input type="number" class="form-control form-control-sm d-inline-block" style="width: 60px;" value="1" min="1">
-                    </div>
-                    <div>
-                      <span class="text-muted">Precio: </span>
-                      <span class="fw-bold">$95.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Opciones de Envío -->
-            <div class="shipping-options mt-3 border-top pt-3">
-              <h6 class="mb-3">Método de Envío</h6>
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="shippingOption" id="correoOption" value="correo" checked>
-                <label class="form-check-label d-flex justify-content-between align-items-center" for="correoOption">
-                  <span>Envío al Correo</span>
-                  <span class="text-primary">$8,999</span>
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="shippingOption" id="domicilioOption" value="domicilio">
-                <label class="form-check-label d-flex justify-content-between align-items-center" for="domicilioOption">
-                  <span>Envío a Domicilio</span>
-                  <span class="text-primary">$12,999</span>
-                </label>
-              </div>
-              
-            </div>
-
-            <div class="cart-totals mt-3 border-top pt-3">
-              <div class="d-flex justify-content-between mb-2">
-                <span>Subtotal:</span>
-                <span class="subtotal">$95.00</span>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <span>Costo de envío:</span>
-                <span class="shipping-cost">$8,999</span>
-              </div>
-              <div class="d-flex justify-content-between mt-2 pt-2 border-top">
-                <span class="fw-bold">Total:</span>
-                <span class="total fw-bold">$9,094.00</span>
-              </div>
-            </div>
-          </div>
+          <!-- El resumen de envío y totales fue movido al offcanvas (Tu carrito). -->
 
           <!-- Formulario de Datos Personales -->
           <form id="checkoutForm" class="needs-validation" novalidate>
@@ -380,12 +302,12 @@
     </div>
   </div>
 
-  <nav class="navbar fixed-top navbar-expand-lg  text-uppercase fs-6 p-3 border-bottom align-items-center">
+  <nav class="navbar fixed-top navbar-expand-lg bg-white text-uppercase fs-6 p-3 border-bottom align-items-center">
     <div class="container-fluid">
       <div class="row justify-content-between align-items-center w-100">
 
         <div class="col-auto">
-          <a class="navbar-brand" href="./index.html">
+          <a class="navbar-brand text-dark" href="./index.html">
             <img src="./images/Sol Logo.png" alt="logo" class="logo-sol" width="150px">
           </a>
         </div>
@@ -448,13 +370,6 @@
                 aria-controls="offcanvasCart">
                 <svg width="24" height="24" viewBox="0 0 24 24">
                   <use xlink:href="#cart"></use>
-                </svg>
-              </a>
-            </li>
-            <li class="search-box" class="mx-2">
-              <a href="#search" class="search-button">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#search"></use>
                 </svg>
               </a>
             </li>
@@ -629,7 +544,7 @@
           <article class="post-item">
             <div class="post-image">
               <a href="index.html">
-                <img src="images/ico" alt="image" class="post-grid-image img-fluid">
+                <img src="images/ico-sol.jpg" alt="image" class="post-grid-image img-fluid">
               </a>
             </div>
           </article>
@@ -763,7 +678,7 @@
         <h5 class="text-uppercase fw-bold mb-3">Contacto</h5>
         <ul class="list-unstyled text-muted">
           <li><i class="bi bi-geo-alt-fill me-2"></i>Buenos Aires, Argentina</li>
-          <li><i class="bi bi-telephone-fill me-2"></i>+54 11 5555 5555</li>
+          
           <li><i class="bi bi-envelope-fill me-2"></i>info@wellness.com</li>
         </ul>
       </div>
@@ -810,36 +725,6 @@
       this.reset();
       this.classList.remove('was-validated');
     });
-
-    // Función para calcular y actualizar totales
-    function updateTotals() {
-      // Obtener valores base
-      const quantity = document.querySelector('.cart-item input[type="number"]').value;
-      const price = 95.00; // Precio base del producto
-      const subtotal = quantity * price;
-      
-      // Obtener costo de envío seleccionado
-      const shippingOption = document.querySelector('input[name="shippingOption"]:checked').value;
-      const shippingCost = shippingOption === 'correo' ? 8999 : 12999;
-      
-      // Actualizar subtotal y costos en la UI
-      document.querySelector('.subtotal').textContent = '$' + subtotal.toFixed(2);
-      document.querySelector('.shipping-cost').textContent = '$' + shippingCost.toFixed(2);
-      document.querySelector('.total').textContent = '$' + (subtotal + shippingCost).toFixed(2);
-    }
-
-    // Event listener para cambios en cantidad
-    document.querySelectorAll('.cart-item input[type="number"]').forEach(function(input) {
-      input.addEventListener('change', updateTotals);
-    });
-
-    // Event listener para cambios en opción de envío
-    document.querySelectorAll('input[name="shippingOption"]').forEach(function(radio) {
-      radio.addEventListener('change', updateTotals);
-    });
-
-    // Inicializar totales
-    updateTotals();
   </script>
   <script>
     // Ajustar padding-top del body para evitar que el contenido quede oculto bajo el navbar fijo
