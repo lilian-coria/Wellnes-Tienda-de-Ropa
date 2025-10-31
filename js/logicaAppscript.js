@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwOYkXbyTBBoZBx--K4XGbwnZQDzTyNOJJnV5xPMohe2azOrTlGIhd3JdX7GHqW6uDgtQ/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYUYj9Y7ocgydiafd_TVHmHIUiQxh368yzWXY9xq7cAzGg8T9C46RFoZa8XoUHvMMS_w/exec";
 
 // Función genérica para cargar cualquier sección
 async function cargarSeccion(sheetName, containerSelector, plantillaFn) {
