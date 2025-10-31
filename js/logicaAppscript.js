@@ -260,3 +260,27 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarSeccion("ProductosRelacionados", "#related-products", plantillaProductos);
   cargarSeccion("MasVendidos", "#best-sellers", plantillaProductos);
 });
+
+//Formulario
+
+    document.getElementById('checkoutForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      if (!this.checkValidity()) {
+        event.stopPropagation();
+        this.classList.add('was-validated');
+        return;
+      }
+
+      // Hide checkout modal
+      var checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+      checkoutModal.hide();
+
+      // Show confirmation modal
+      var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+      confirmationModal.show();
+
+      // Reset form
+      this.reset();
+      this.classList.remove('was-validated');
+    });
