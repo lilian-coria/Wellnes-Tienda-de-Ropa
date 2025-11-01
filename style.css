@@ -1568,6 +1568,7 @@ a.btn-link.text-light:after {
    know the exact original 'bottom' value. The !important ensures override
    of library defaults when needed. */
 section:not(#billboard) .swiper-pagination {
+  display: none;
   transform: translateY(18px);
   transition: transform 0.2s ease-out;
   z-index: 5;
@@ -1576,6 +1577,7 @@ section:not(#billboard) .swiper-pagination {
 /* On small screens pagination is relative; keep shift smaller to avoid overlap */
 @media (max-width: 767px) {
   section:not(#billboard) .swiper-pagination {
+    display: block;
     transform: translateY(10px);
   }
 }

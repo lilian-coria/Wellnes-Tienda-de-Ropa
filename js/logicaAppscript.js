@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwOYkXbyTBBoZBx--K4XGbwnZQDzTyNOJJnV5xPMohe2azOrTlGIhd3JdX7GHqW6uDgtQ/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzmiiJADFeIRONliRFKi0uVwPDW7xhPBmW2ezMX3zLxjS7-_JvavKTKcBwgy3z4-ewJmA/exec";
 
 // Función genérica para cargar cualquier sección
 async function cargarSeccion(sheetName, containerSelector, plantillaFn) {
@@ -260,3 +260,90 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarSeccion("ProductosRelacionados", "#related-products", plantillaProductos);
   cargarSeccion("MasVendidos", "#best-sellers", plantillaProductos);
 });
+
+//Formulario
+
+document.getElementById('checkoutForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
+  
+  if (!this.checkValidity()) {
+    event.stopPropagation();
+    this.classList.add('was-validated');
+    return;
+  }
+
+  // Recopilar datos del formulario
+  const datosFormulario = {
+    nombreCompleto: document.getElementById('nombreCompleto').value,
+    domicilio: document.getElementById('domicilio').value,
+    codigoPostal: document.getElementById('codigoPostal').value,
+    telefono: document.getElementById('telefono').value,
+    email: document.getElementById('email').value
+  };
+
+  // Enviar a Google Sheets
+  const enviado = await enviarPedidoASheet(datosFormulario);
+
+  // Hide checkout modal
+  var checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+  checkoutModal.hide();
+
+  // Show confirmation modal
+  var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+  confirmationModal.show();
+
+  // Vaciar carrito después de confirmar
+  if (enviado) {
+    vaciarCarrito();
+  }
+
+  // Reset form
+  this.reset();
+  this.classList.remove('was-validated');
+  
+});
+
+
+// Función para enviar pedido a Google Sheets
+async function enviarPedidoASheet(datosFormulario) {
+  // Calcular totales
+  const subtotal = productosCarrito.reduce((sum, p) => sum + (parseFloat(p.precio) || 0) * (p.cantidad || 1), 0);
+  
+  const selected = document.querySelector('input[name="shippingOptionCart"]:checked');
+  let shippingCost = 0;
+  if (selected && selected.dataset && selected.dataset.cost) {
+    shippingCost = parseFloat(selected.dataset.cost) || 0;
+  }
+  
+  const total = subtotal + shippingCost;
+  
+  // Preparar datos del pedido
+  const pedido = {
+    nombreCompleto: datosFormulario.nombreCompleto,
+    domicilio: datosFormulario.domicilio,
+    codigoPostal: datosFormulario.codigoPostal,
+    telefono: datosFormulario.telefono,
+    email: datosFormulario.email,
+    productos: JSON.stringify(productosCarrito), // Convertir array a string
+    subtotal: subtotal.toFixed(2),
+    envio: shippingCost.toFixed(2),
+    total: total.toFixed(2)
+  };
+  
+  try {
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(pedido)
+    });
+    
+    console.log('Pedido enviado correctamente');
+    return true;
+  } catch (error) {
+    console.error('Error al enviar pedido:', error);
+    return false;
+  }
+}
