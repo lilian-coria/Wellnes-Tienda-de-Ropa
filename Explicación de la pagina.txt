@@ -1,0 +1,46 @@
+Explicación de la pagina: 
+
+
+Este proyecto se realizo  con Google Sheets en lugar de una página tradicional porque es una opción gratuita, práctica y no necesita pagar hosting ni mantenimiento.
+Todo se guarda directamente en una planilla de Google, que funciona como una base de datos donde se registran los pedidos o productos automáticamente.
+
+Además, al usar Google Apps Script, se pueden hacer funciones automáticas (como enviar correos o actualizar datos) sin tener que contratar un servidor ni instalar nada.
+En resumen:
+
+💸 No hay que pagar dominio ni hosting.
+
+📊 Los datos se guardan en Google Sheets de forma segura y accesible desde cualquier dispositivo.
+
+⚙️ Se puede modificar o ampliar fácilmente sin depender de un programador.
+
+🚀 Ideal para algo simple, rápido y funcional sin gastar dinero.
+
+Qué es hosting:
+El hosting (o alojamiento web) es el servicio donde se guarda una página web para que esté disponible en Internet.
+Podés pensar que:
+
+La página web es como una casa.
+
+El hosting es el terreno donde la casa se construye.
+
+Si no pagás ese terreno, la casa (tu web) no puede estar online.
+
+En este proyecto, Google ya aloja los archivos y el sistema gratis en la nube, así que no hace falta pagar hosting.
+
+Sobre la pasarela de pagos y la seguridad:
+
+En este proyecto no se usa una pasarela de pagos directa (como Mercado Pago o PayPal), porque esas plataformas manejan información muy sensible: tarjetas, contraseñas y datos personales.
+Para usarlas de forma segura hay que configurar claves privadas y sistemas de encriptación, algo que solo se debe hacer en servidores protegidos y certificados (con hosting y HTTPS).
+
+Como esto está hecho con Google Sheets y Apps Script, la idea es mantenerlo simple y seguro:
+
+Los datos que se envían (como nombre, producto, correo, cantidad, etc.) solo van a la planilla de Google, no se comparten con nadie más.
+
+No se manejan datos de pago ni información bancaria dentro del código, así se evitan riesgos de seguridad.
+
+Google ya protege las conexiones y el acceso a la planilla con su propio sistema (solo vos o las personas con permiso pueden verla).
+
+Si se llegara a poner mal un código en un sistema con pasarela de pagos, podría causar errores graves —como perder información o exponer datos—, por eso para este tipo de proyecto es mejor no incluir pagos directos y usar plataformas externas seguras cuando se necesiten.
+
+Resumen final:
+Es un sistema gratis, seguro y práctico para registrar pedidos sin complicaciones ni gastos extra, que permite guardar datos, enviar notificaciones y mantener todo organizado, sin necesidad de pagar hosting ni manejar información bancaria directamente.
