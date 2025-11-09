@@ -347,3 +347,136 @@ async function enviarPedidoASheet(datosFormulario) {
     return false;
   }
 }
+// Plantilla de producto (sin talles ni botón dentro del modal)
+function plantillaProductos(prod, index) {
+  const precio = prod.Precio ? parseFloat(prod.Precio).toFixed(2) : '0.00';
+  const id = prod.ID || prod.Id || prod.id || index;
+  return `
+    <div class="product-item image-zoom-effect link-effect">
+      <div class="image-holder position-relative">
+        <a href="#" class="open-product-modal"
+           data-id="${id}"
+           data-titulo="${escapeHtml(prod.Titulo)}"
+           data-precio="${precio}"
+           data-imagen="${escapeHtml(prod.ImagenURL)}"
+           data-enlace="${escapeHtml(prod.Enlace)}">
+          <img src="${prod.ImagenURL}" alt="${prod.Titulo}" class="product-image img-fluid">
+        </a>
+        <div class="product-content">
+          <h5 class="text-uppercase fs-5 mt-3">
+            <a href="#" class="open-product-modal small-link"
+               data-id="${id}"
+               data-titulo="${escapeHtml(prod.Titulo)}"
+               data-precio="${precio}"
+               data-imagen="${escapeHtml(prod.ImagenURL)}"
+               data-enlace="${escapeHtml(prod.Enlace)}">
+              ${prod.Titulo}
+            </a>
+          </h5>
+          <div class="d-flex flex-column align-items-start mt-2">
+            <span class="mb-2">$${precio}</span>
+            <button type="button" class="btn btn-sm btn-outline-dark add-from-card"
+              data-id="${id}"
+              data-titulo="${escapeHtml(prod.Titulo)}"
+              data-precio="${precio}"
+              data-imagen="${escapeHtml(prod.ImagenURL)}"
+              onclick="agregarDesdeCard(this)">
+              Agregar al carrito
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Plantilla de colección
+function plantillaColeccion(prod, index) {
+  const precio = prod.Precio ? parseFloat(prod.Precio).toFixed(2) : '0.00';
+  const id = prod.ID || prod.Id || prod.id || ('colec-' + index);
+  return `
+    <div class="banner-item image-zoom-effect">
+      <div class="image-holder">
+        <a href="#" class="open-product-modal"
+           data-id="${id}"
+           data-titulo="${escapeHtml(prod.Titulo)}"
+           data-precio="${precio}"
+           data-imagen="${escapeHtml(prod.ImagenURL)}"
+           data-enlace="${escapeHtml(prod.Enlace)}">
+          <img src="${prod.ImagenURL}" alt="${prod.Titulo}" class="img-fluid">
+        </a>
+      </div>
+      <div class="banner-content py-4">
+        <h5 class="element-title text-uppercase">
+          <a href="#" class="open-product-modal small-link"
+             data-id="${id}"
+             data-titulo="${escapeHtml(prod.Titulo)}"
+             data-precio="${precio}"
+             data-imagen="${escapeHtml(prod.ImagenURL)}"
+             data-enlace="${escapeHtml(prod.Enlace)}">
+            ${prod.Titulo}
+          </a>
+        </h5>
+        <div class="d-flex flex-column align-items-start mt-2">
+          <span class="mb-2">$${precio}</span>
+          <button type="button" class="btn btn-outline-dark add-from-card"
+            data-id="${id}"
+            data-titulo="${escapeHtml(prod.Titulo)}"
+            data-precio="${precio}"
+            data-imagen="${escapeHtml(prod.ImagenURL)}"
+            onclick="agregarDesdeCard(this)">
+            Agregar al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Evita errores con caracteres especiales
+function escapeHtml(str) {
+  if (!str && str !== 0) return '';
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+// Abrir modal del producto
+document.addEventListener('click', function(e) {
+  const target = e.target.closest('.open-product-modal');
+  if (!target) return;
+  e.preventDefault();
+  openProductModalFromDataset(target.dataset);
+});
+
+function openProductModalFromDataset(dataset) {
+  const title = dataset.titulo || '';
+  const price = dataset.precio || '0.00';
+  const image = dataset.imagen || '';
+
+  // Rellenar contenido del modal
+  document.getElementById('productModalTitle').textContent = title;
+  document.getElementById('productModalPrice').textContent = '$' + parseFloat(price).toFixed(2);
+  document.getElementById('productModalImage').src = image;
+
+  // Mostrar modal sin trabar pantalla
+  const modalEl = document.getElementById('productModal');
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+  modalInstance.show();
+}
+
+// Agregar al carrito desde las cards
+function agregarDesdeCard(el) {
+  const id = el.dataset.id || Date.now();
+  const producto = {
+    id: id,
+    titulo: el.dataset.titulo || 'Producto',
+    precio: parseFloat(el.dataset.precio || 0).toFixed(2),
+    imagen: el.dataset.imagen || '',
+    cantidad: 1
+  };
+  agregarAlCarrito(producto);
+}
