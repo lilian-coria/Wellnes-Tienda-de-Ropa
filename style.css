@@ -1624,3 +1624,80 @@ section:not(#billboard) .swiper-pagination {
   }
 }
 
+/* -----------------------------
+   Responsive fixes added
+   - Ensure testimonial slides are full-width on small screens
+   - Make logo more responsive via max-width rules
+   - Make swiper pagination absolute on small screens so it doesn't push content
+------------------------------ */
+@media (max-width: 767px) {
+  /* For testimonials show one per view (override wide fixed width) */
+  .testimonial-swiper .swiper-slide {
+    width: 100% !important;
+  }
+
+  /* Reduce header logo size on smaller screens */
+  .logo-sol {
+    max-width: 120px;
+    height: auto;
+  }
+
+  /* Keep pagination absolutely positioned so it overlays slider instead of pushing layout */
+  section:not(#billboard) .swiper-pagination {
+    display: block;
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    transform: translateY(0);
+    z-index: 10;
+  }
+
+  /* Ensure slider has space for the pagination without changing document flow */
+  .swiper {
+    padding-bottom: 36px;
+  }
+}
+
+@media (max-width: 420px) {
+  .logo-sol {
+    max-width: 100px;
+  }
+
+  /* If the large decorative title overlaps on very small screens, hide it */
+  .title-xlarge {
+    display: none;
+  }
+}
+
+/* Spacing improvements for Colección Deportiva (billboard) on small screens */
+@media (max-width: 767px) {
+  #billboard .banner-item {
+    padding-left: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;
+  }
+
+  #billboard .banner-item .image-holder,
+  #billboard .banner-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    object-fit: cover;
+  }
+
+  #billboard .banner-content {
+    padding: 8px 0 16px;
+  }
+
+  #billboard .banner-content .element-title {
+    margin-bottom: 6px;
+    font-size: 1rem;
+  }
+
+  #billboard .banner-content span {
+    margin-top: 6px;
+  }
+}
+

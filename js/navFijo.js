@@ -37,10 +37,32 @@
             var targetPosition = targetElement.offsetTop - navbarHeight;
             
             // Hacer el scroll suave
+            // If there is an offcanvas shown (mobile hamburger menu), close it
+            // Use Bootstrap's Offcanvas API to hide it (getOrCreateInstance ensures instance exists)
+            var activeOffcanvas = document.querySelector('.offcanvas.show');
+            if (activeOffcanvas && typeof bootstrap !== 'undefined') {
+              var offcanvasInstance = bootstrap.Offcanvas.getOrCreateInstance(activeOffcanvas);
+              try { offcanvasInstance.hide(); } catch(e) { /* ignore if fails */ }
+            }
+
+            // Smooth scroll to the anchor target
             window.scrollTo({
               top: targetPosition,
               behavior: 'smooth'
             });
+          }
+        });
+      });
+
+      // Also: if a user clicks any link inside an offcanvas menu, close the offcanvas
+      // (works for external links like Instagram, or other nav items)
+      var offcanvasLinks = document.querySelectorAll('.offcanvas a');
+      offcanvasLinks.forEach(function(link){
+        link.addEventListener('click', function(){
+          var activeOffcanvas = document.querySelector('.offcanvas.show');
+          if (activeOffcanvas && typeof bootstrap !== 'undefined') {
+            var offcanvasInstance = bootstrap.Offcanvas.getOrCreateInstance(activeOffcanvas);
+            try { offcanvasInstance.hide(); } catch(e) { /* ignore */ }
           }
         });
       });
