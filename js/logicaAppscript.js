@@ -1,5 +1,27 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzmiiJADFeIRONliRFKi0uVwPDW7xhPBmW2ezMX3zLxjS7-_JvavKTKcBwgy3z4-ewJmA/exec";
 
+// Función para formatear precio en formato argentino
+function formatearPrecio(precio) {
+  const num = parseFloat(precio);
+  if (isNaN(num)) return '$0';
+  
+  // Separar parte entera de decimales
+  const partes = num.toFixed(2).split('.');
+  const entero = partes[0];
+  const decimales = partes[1];
+  
+  // Agregar puntos como separador de miles
+  const enteroFormateado = entero.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  
+  // Si tiene decimales significativos (distintos de 00), mostrarlos con coma
+  if (decimales && decimales !== '00') {
+    return '$' + enteroFormateado + ',' + decimales;
+  }
+  
+  // Si no tiene decimales significativos, no mostrarlos
+  return '$' + enteroFormateado;
+}
+
 // Función genérica para cargar cualquier sección
 async function cargarSeccion(sheetName, containerSelector, plantillaFn) {
   const container = document.querySelector(containerSelector + " .swiper-wrapper");
@@ -9,10 +31,10 @@ async function cargarSeccion(sheetName, containerSelector, plantillaFn) {
     const res = await fetch(`${SCRIPT_URL}?sheet=${sheetName}`);
     const productos = await res.json();
 
-    productos.forEach(prod => {
+    productos.forEach((prod, index) => {
       const slide = document.createElement("div");
       slide.classList.add("swiper-slide");
-      slide.innerHTML = plantillaFn(prod);
+      slide.innerHTML = plantillaFn(prod, index);
       container.appendChild(slide);
     });
 
@@ -64,7 +86,7 @@ function actualizarCarrito() {
             <img src="${producto.imagen}" alt="${producto.titulo}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
             <div class="flex-grow-1">
               <h6 class="my-0">${producto.titulo}</h6>
-              <small class="text-muted">$${producto.precio}</small>
+              <small class="text-muted">${formatearPrecio(producto.precio)}</small>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
               <div class="input-group input-group-sm" style="width: 100px;">
@@ -84,7 +106,7 @@ function actualizarCarrito() {
     // Actualizar subtotal en el offcanvas (el total final incluye envío)
     const subtotalEl = document.getElementById('subtotal-offcanvas');
     if (subtotalEl) {
-      subtotalEl.textContent = '$' + total.toFixed(2);
+      subtotalEl.textContent = formatearPrecio(total);
     }
   }
 
@@ -136,9 +158,10 @@ function actualizarCarrito() {
     const shippingEl = document.getElementById('shipping-cost-offcanvas');
     const totalEl = document.getElementById('total-offcanvas');
 
-    if (shippingEl) shippingEl.textContent = '$' + shippingCost.toFixed(2);
-    if (totalEl) totalEl.textContent = '$' + (subtotal + shippingCost).toFixed(2);
+    if (shippingEl) shippingEl.textContent = formatearPrecio(shippingCost);
+    if (totalEl) totalEl.textContent = formatearPrecio(subtotal + shippingCost);
   }
+
 function agregarAlCarrito(producto) {
   // Buscar si el producto ya existe en el carrito
   const productoExistente = productosCarrito.find(p => 
@@ -167,6 +190,7 @@ function vaciarCarrito() {
   productosCarrito = [];
   actualizarCarrito();
 }
+
 function actualizarContadorCarrito() {
   cartCount++;
   const contadores = document.querySelectorAll('.cart-count');
@@ -177,25 +201,43 @@ function actualizarContadorCarrito() {
   localStorage.setItem('cartCount', cartCount.toString());
 }
 
-// Plantillas HTML
-function plantillaProductos(prod) {
+// Plantilla de producto (sin talles ni botón dentro del modal)
+function plantillaProductos(prod, index) {
   const precio = prod.Precio ? parseFloat(prod.Precio).toFixed(2) : '0.00';
+  const precioFormateado = formatearPrecio(precio);
+  const id = prod.ID || prod.Id || prod.id || index;
   return `
     <div class="product-item image-zoom-effect link-effect">
       <div class="image-holder position-relative">
-        <a href="${prod.Enlace}">
+        <a href="#" class="open-product-modal"
+           data-id="${id}"
+           data-titulo="${escapeHtml(prod.Titulo)}"
+           data-precio="${precio}"
+           data-imagen="${escapeHtml(prod.ImagenURL)}"
+           data-enlace="${escapeHtml(prod.Enlace)}">
           <img src="${prod.ImagenURL}" alt="${prod.Titulo}" class="product-image img-fluid">
         </a>
         <div class="product-content">
-          <h5 class="text-uppercase fs-5 mt-3"><a href="${prod.Enlace}">${prod.Titulo}</a></h5>
-          <div class="d-flex justify-content-between align-items-center">
-            <span>$${precio}</span>
-            <button onclick="agregarAlCarrito({
-              titulo: '${prod.Titulo.replace(/'/g, "\\'")}',
-              precio: ${precio},
-              imagen: '${prod.ImagenURL}',
-              enlace: '${prod.Enlace}'
-            })" class="btn btn-sm btn-outline-dark">Agregar al carrito</button>
+          <h5 class="text-uppercase fs-5 mt-3">
+            <a href="#" class="open-product-modal small-link"
+               data-id="${id}"
+               data-titulo="${escapeHtml(prod.Titulo)}"
+               data-precio="${precio}"
+               data-imagen="${escapeHtml(prod.ImagenURL)}"
+               data-enlace="${escapeHtml(prod.Enlace)}">
+              ${prod.Titulo}
+            </a>
+          </h5>
+          <div class="d-flex flex-column align-items-start mt-2">
+            <span class="mb-2">${precioFormateado}</span>
+            <button type="button" class="btn btn-sm btn-outline-dark add-from-card"
+              data-id="${id}"
+              data-titulo="${escapeHtml(prod.Titulo)}"
+              data-precio="${precio}"
+              data-imagen="${escapeHtml(prod.ImagenURL)}"
+              onclick="agregarDesdeCard(this)">
+              Agregar al carrito
+            </button>
           </div>
         </div>
       </div>
@@ -203,31 +245,96 @@ function plantillaProductos(prod) {
   `;
 }
 
-function plantillaColeccion(prod) {
+// Plantilla de colección
+function plantillaColeccion(prod, index) {
   const precio = prod.Precio ? parseFloat(prod.Precio).toFixed(2) : '0.00';
+  const precioFormateado = formatearPrecio(precio);
+  const id = prod.ID || prod.Id || prod.id || ('colec-' + index);
   return `
     <div class="banner-item image-zoom-effect">
       <div class="image-holder">
-        <a href="${prod.Enlace}">
+        <a href="#" class="open-product-modal"
+           data-id="${id}"
+           data-titulo="${escapeHtml(prod.Titulo)}"
+           data-precio="${precio}"
+           data-imagen="${escapeHtml(prod.ImagenURL)}"
+           data-enlace="${escapeHtml(prod.Enlace)}">
           <img src="${prod.ImagenURL}" alt="${prod.Titulo}" class="img-fluid">
         </a>
       </div>
       <div class="banner-content py-4">
-        <h5 class="element-title text-uppercase"><a href="${prod.Enlace}" class="item-anchor">${prod.Titulo}</a></h5>
-        <div class="d-flex justify-content-between align-items-center">
-          <span>$${precio}</span>
-        </div>
-        <div class="btn-left mt-3">
-          <button onclick="agregarAlCarrito({
-            titulo: '${prod.Titulo.replace(/'/g, "\\'")}',
-            precio: ${precio},
-            imagen: '${prod.ImagenURL}',
-            enlace: '${prod.Enlace}'
-          })" class="btn btn-outline-dark">Agregar al carrito</button>
+        <h5 class="element-title text-uppercase">
+          <a href="#" class="open-product-modal small-link"
+             data-id="${id}"
+             data-titulo="${escapeHtml(prod.Titulo)}"
+             data-precio="${precio}"
+             data-imagen="${escapeHtml(prod.ImagenURL)}"
+             data-enlace="${escapeHtml(prod.Enlace)}">
+            ${prod.Titulo}
+          </a>
+        </h5>
+        <div class="d-flex flex-column align-items-start mt-2">
+          <span class="mb-2">${precioFormateado}</span>
+          <button type="button" class="btn btn-outline-dark add-from-card"
+            data-id="${id}"
+            data-titulo="${escapeHtml(prod.Titulo)}"
+            data-precio="${precio}"
+            data-imagen="${escapeHtml(prod.ImagenURL)}"
+            onclick="agregarDesdeCard(this)">
+            Agregar al carrito
+          </button>
         </div>
       </div>
     </div>
   `;
+}
+
+// Evita errores con caracteres especiales
+function escapeHtml(str) {
+  if (!str && str !== 0) return '';
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+// Abrir modal del producto
+document.addEventListener('click', function(e) {
+  const target = e.target.closest('.open-product-modal');
+  if (!target) return;
+  e.preventDefault();
+  openProductModalFromDataset(target.dataset);
+});
+
+function openProductModalFromDataset(dataset) {
+  const title = dataset.titulo || '';
+  const price = dataset.precio || '0.00';
+  const image = dataset.imagen || '';
+
+  // Rellenar contenido del modal
+  document.getElementById('productModalTitle').textContent = title;
+  document.getElementById('productModalPrice').textContent = formatearPrecio(price);
+  document.getElementById('productModalImage').src = image;
+
+  // Mostrar modal sin trabar pantalla
+  const modalEl = document.getElementById('productModal');
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+  modalInstance.show();
+}
+
+// Agregar al carrito desde las cards
+function agregarDesdeCard(el) {
+  const id = el.dataset.id || Date.now();
+  const producto = {
+    id: id,
+    titulo: el.dataset.titulo || 'Producto',
+    precio: parseFloat(el.dataset.precio || 0).toFixed(2),
+    imagen: el.dataset.imagen || '',
+    cantidad: 1
+  };
+  agregarAlCarrito(producto);
 }
 
 // Cargar todas las secciones al inicio
@@ -261,8 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarSeccion("MasVendidos", "#best-sellers", plantillaProductos);
 });
 
-//Formulario
-
+// Formulario
 document.getElementById('checkoutForm').addEventListener('submit', async function(event) {
   event.preventDefault();
   
@@ -302,7 +408,6 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
   this.classList.remove('was-validated');
   
 });
-
 
 // Función para enviar pedido a Google Sheets
 async function enviarPedidoASheet(datosFormulario) {
@@ -346,137 +451,4 @@ async function enviarPedidoASheet(datosFormulario) {
     console.error('Error al enviar pedido:', error);
     return false;
   }
-}
-// Plantilla de producto (sin talles ni botón dentro del modal)
-function plantillaProductos(prod, index) {
-  const precio = prod.Precio ? parseFloat(prod.Precio).toFixed(2) : '0.00';
-  const id = prod.ID || prod.Id || prod.id || index;
-  return `
-    <div class="product-item image-zoom-effect link-effect">
-      <div class="image-holder position-relative">
-        <a href="#" class="open-product-modal"
-           data-id="${id}"
-           data-titulo="${escapeHtml(prod.Titulo)}"
-           data-precio="${precio}"
-           data-imagen="${escapeHtml(prod.ImagenURL)}"
-           data-enlace="${escapeHtml(prod.Enlace)}">
-          <img src="${prod.ImagenURL}" alt="${prod.Titulo}" class="product-image img-fluid">
-        </a>
-        <div class="product-content">
-          <h5 class="text-uppercase fs-5 mt-3">
-            <a href="#" class="open-product-modal small-link"
-               data-id="${id}"
-               data-titulo="${escapeHtml(prod.Titulo)}"
-               data-precio="${precio}"
-               data-imagen="${escapeHtml(prod.ImagenURL)}"
-               data-enlace="${escapeHtml(prod.Enlace)}">
-              ${prod.Titulo}
-            </a>
-          </h5>
-          <div class="d-flex flex-column align-items-start mt-2">
-            <span class="mb-2">$${precio}</span>
-            <button type="button" class="btn btn-sm btn-outline-dark add-from-card"
-              data-id="${id}"
-              data-titulo="${escapeHtml(prod.Titulo)}"
-              data-precio="${precio}"
-              data-imagen="${escapeHtml(prod.ImagenURL)}"
-              onclick="agregarDesdeCard(this)">
-              Agregar al carrito
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// Plantilla de colección
-function plantillaColeccion(prod, index) {
-  const precio = prod.Precio ? parseFloat(prod.Precio).toFixed(2) : '0.00';
-  const id = prod.ID || prod.Id || prod.id || ('colec-' + index);
-  return `
-    <div class="banner-item image-zoom-effect">
-      <div class="image-holder">
-        <a href="#" class="open-product-modal"
-           data-id="${id}"
-           data-titulo="${escapeHtml(prod.Titulo)}"
-           data-precio="${precio}"
-           data-imagen="${escapeHtml(prod.ImagenURL)}"
-           data-enlace="${escapeHtml(prod.Enlace)}">
-          <img src="${prod.ImagenURL}" alt="${prod.Titulo}" class="img-fluid">
-        </a>
-      </div>
-      <div class="banner-content py-4">
-        <h5 class="element-title text-uppercase">
-          <a href="#" class="open-product-modal small-link"
-             data-id="${id}"
-             data-titulo="${escapeHtml(prod.Titulo)}"
-             data-precio="${precio}"
-             data-imagen="${escapeHtml(prod.ImagenURL)}"
-             data-enlace="${escapeHtml(prod.Enlace)}">
-            ${prod.Titulo}
-          </a>
-        </h5>
-        <div class="d-flex flex-column align-items-start mt-2">
-          <span class="mb-2">$${precio}</span>
-          <button type="button" class="btn btn-outline-dark add-from-card"
-            data-id="${id}"
-            data-titulo="${escapeHtml(prod.Titulo)}"
-            data-precio="${precio}"
-            data-imagen="${escapeHtml(prod.ImagenURL)}"
-            onclick="agregarDesdeCard(this)">
-            Agregar al carrito
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// Evita errores con caracteres especiales
-function escapeHtml(str) {
-  if (!str && str !== 0) return '';
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-// Abrir modal del producto
-document.addEventListener('click', function(e) {
-  const target = e.target.closest('.open-product-modal');
-  if (!target) return;
-  e.preventDefault();
-  openProductModalFromDataset(target.dataset);
-});
-
-function openProductModalFromDataset(dataset) {
-  const title = dataset.titulo || '';
-  const price = dataset.precio || '0.00';
-  const image = dataset.imagen || '';
-
-  // Rellenar contenido del modal
-  document.getElementById('productModalTitle').textContent = title;
-  document.getElementById('productModalPrice').textContent = '$' + parseFloat(price).toFixed(2);
-  document.getElementById('productModalImage').src = image;
-
-  // Mostrar modal sin trabar pantalla
-  const modalEl = document.getElementById('productModal');
-  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
-  modalInstance.show();
-}
-
-// Agregar al carrito desde las cards
-function agregarDesdeCard(el) {
-  const id = el.dataset.id || Date.now();
-  const producto = {
-    id: id,
-    titulo: el.dataset.titulo || 'Producto',
-    precio: parseFloat(el.dataset.precio || 0).toFixed(2),
-    imagen: el.dataset.imagen || '',
-    cantidad: 1
-  };
-  agregarAlCarrito(producto);
 }
