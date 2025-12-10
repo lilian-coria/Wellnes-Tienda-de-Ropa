@@ -1,5 +1,19 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzmiiJADFeIRONliRFKi0uVwPDW7xhPBmW2ezMX3zLxjS7-_JvavKTKcBwgy3z4-ewJmA/exec";
 
+// Formatea precios al estilo argentino: miles con punto y decimales con coma
+function formatearPrecio(precio) {
+  const num = parseFloat(precio);
+  if (isNaN(num)) return '$0';
+  const partes = num.toFixed(2).split('.');
+  const entero = partes[0];
+  const decimales = partes[1];
+  const enteroFormateado = entero.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  if (decimales && decimales !== '00') {
+    return '$' + enteroFormateado + ',' + decimales;
+  }
+  return '$' + enteroFormateado;
+}
+
 // Función genérica para cargar cualquier sección
 async function cargarSeccion(sheetName, containerSelector, plantillaFn) {
   const container = document.querySelector(containerSelector + " .swiper-wrapper");
@@ -9,10 +23,10 @@ async function cargarSeccion(sheetName, containerSelector, plantillaFn) {
     const res = await fetch(`${SCRIPT_URL}?sheet=${sheetName}`);
     const productos = await res.json();
 
-    productos.forEach(prod => {
+    productos.forEach((prod, index) => {
       const slide = document.createElement("div");
       slide.classList.add("swiper-slide");
-      slide.innerHTML = plantillaFn(prod);
+      slide.innerHTML = plantillaFn(prod, index);
       container.appendChild(slide);
     });
 
@@ -81,10 +95,10 @@ function actualizarCarrito() {
         total += parseFloat(producto.precio) * (producto.cantidad || 1);
     });
 
-    // Actualizar subtotal en el offcanvas (el total final incluye envío)
-    const subtotalEl = document.getElementById('subtotal-offcanvas');
-    if (subtotalEl) {
-      subtotalEl.textContent = '$' + total.toFixed(2);
+    // Actualizar total en el offcanvas (solo subtotal, sin envío)
+    const totalEl = document.getElementById('total-offcanvas');
+    if (totalEl) {
+      totalEl.textContent = formatearPrecio(total);
     }
   }
 
@@ -125,19 +139,8 @@ function actualizarCarrito() {
   // Actualiza subtotal/envío/total dentro del offcanvas (Tu carrito)
   function actualizarTotalesEnCarrito() {
     const subtotal = productosCarrito.reduce((sum, p) => sum + (parseFloat(p.precio) || 0) * (p.cantidad || 1), 0);
-
-    // Leer opción de envío seleccionada en el carrito
-    const selected = document.querySelector('input[name="shippingOptionCart"]:checked');
-    let shippingCost = 0;
-    if (selected && selected.dataset && selected.dataset.cost) {
-      shippingCost = parseFloat(selected.dataset.cost) || 0;
-    }
-
-    const shippingEl = document.getElementById('shipping-cost-offcanvas');
     const totalEl = document.getElementById('total-offcanvas');
-
-    if (shippingEl) shippingEl.textContent = '$' + shippingCost.toFixed(2);
-    if (totalEl) totalEl.textContent = '$' + (subtotal + shippingCost).toFixed(2);
+    if (totalEl) totalEl.textContent = formatearPrecio(subtotal);
   }
 function agregarAlCarrito(producto) {
   // Buscar si el producto ya existe en el carrito
@@ -246,11 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarCarrito();
   }
 
-  // Registrar listeners para opciones de envío en el offcanvas
-  document.querySelectorAll('input[name="shippingOptionCart"]').forEach(radio => {
-    radio.addEventListener('change', actualizarTotalesEnCarrito);
-  });
-
   // Inicializar totales en el offcanvas
   if (typeof actualizarTotalesEnCarrito === 'function') actualizarTotalesEnCarrito();
 
@@ -308,14 +306,9 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
 async function enviarPedidoASheet(datosFormulario) {
   // Calcular totales
   const subtotal = productosCarrito.reduce((sum, p) => sum + (parseFloat(p.precio) || 0) * (p.cantidad || 1), 0);
-  
-  const selected = document.querySelector('input[name="shippingOptionCart"]:checked');
-  let shippingCost = 0;
-  if (selected && selected.dataset && selected.dataset.cost) {
-    shippingCost = parseFloat(selected.dataset.cost) || 0;
-  }
-  
-  const total = subtotal + shippingCost;
+  // No shipping cost: total equals subtotal
+  const shippingCost = 0;
+  const total = subtotal;
   
   // Preparar datos del pedido
   const pedido = {
